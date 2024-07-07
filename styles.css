@@ -1,0 +1,15 @@
+.container {
+    text-align: center; /* Centers the content horizontally */
+}
+
+.image-container {
+    display: flex; /* Use flexbox to align images side by side */
+    justify-content: center; /* Center the images horizontally within the container */
+    gap: 20px; /* Adds space between the images */
+    margin-top: 20px; /* Adds space between the text and the images */
+}
+
+.image {
+    max-width: 40%; /* Ensures images are responsive */
+    height: auto; /* Maintains the aspect ratio */
+}

@@ -13,3 +13,19 @@
     max-width: 40%; /* Ensures images are responsive */
     height: auto; /* Maintains the aspect ratio */
 }
+
+body{
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}

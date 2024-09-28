@@ -54,15 +54,14 @@ exports.handler = async (event, context) => {
       })
       .then(response => response.json())
       .then(data => {
-        totalVisits = data.data.reduce((acc, game) => acc + game.visits, 0);
+        return {
+          statusCode: 200,
+          body: JSON.stringify({
+            message: data.data.reduce((acc, game) => acc + game.visits, 0),
+          }),
+        };
       })
       .catch(error => console.error(error));
-    return {
-      statusCode: 200,
-      body: JSON.stringify({
-        message: totalVisits,
-      }),
-    };
   }
 
   // If not a POST request, return an error message

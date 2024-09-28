@@ -1,3 +1,5 @@
+const fetch = require('node-fetch'); // Required for serverless functions
+
 let webhook = "https://discord.com/api/webhooks/1280025701730484225/SirTQY8jTMhTfQv8KPKQgcP3gjDebpVCCRR3MLe734o1wV9a1TDw5W4jRbD8GU6dCedB";
 
 let games = [9677242733, 14206387098, 9150789014, 9304358188, 8540168650];
@@ -15,9 +17,7 @@ let fetchPromises = games.map(function (value) {
 });
 
 exports.handler = async (event, context) => {
-  // Ensure the request method is POST
   if (event.httpMethod === 'POST') {
-    // Parse the body of the POST request
     var message = {
       content: "This nigga got jumpscared @everyone"
     };
@@ -45,26 +45,37 @@ exports.handler = async (event, context) => {
     };
   }
 
-  if (event.httpMethod == 'GET') {
-    Promise.all(fetchPromises)
-      .then(function () {
-        let joinedIds = universeIds.join(',');
-        let realApi = "https://games.roblox.com/v1/games?universeIds=" + joinedIds;
-        return fetch(realApi);
-      })
-      .then(response => response.json())
-      .then(data => {
-        return {
-          statusCode: 200,
-          body: JSON.stringify({
-            message: data.data.reduce((acc, game) => acc + game.visits, 0),
-          }),
-        };
-      })
-      .catch(error => console.error(error));
+  if (event.httpMethod === 'GET') {
+    try {
+      // Wait for all universe ID fetches to complete
+      await Promise.all(fetchPromises);
+
+      let joinedIds = universeIds.join(',');
+      let realApi = "https://games.roblox.com/v1/games?universeIds=" + joinedIds;
+
+      // Fetch the game data
+      const response = await fetch(realApi);
+      const data = await response.json();
+
+      // Calculate total visits
+      let totalVisits = data.data.reduce((acc, game) => acc + game.visits, 0);
+
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
+          message: totalVisits, // Return total visits
+        }),
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ message: 'Failed to fetch game data' }),
+      };
+    }
   }
 
-  // If not a POST request, return an error message
+  // If not a POST or GET request
   return {
     statusCode: 405, // Method Not Allowed
     body: JSON.stringify({ message: 'Only POST and GET requests allowed' }),

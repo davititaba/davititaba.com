@@ -1,5 +1,3 @@
-const fetch = require('node-fetch'); // Required for serverless functions
-
 let webhook = "https://discord.com/api/webhooks/1280025701730484225/SirTQY8jTMhTfQv8KPKQgcP3gjDebpVCCRR3MLe734o1wV9a1TDw5W4jRbD8GU6dCedB";
 
 let games = [9677242733, 14206387098, 9150789014, 9304358188, 8540168650];

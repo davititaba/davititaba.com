@@ -1,6 +1,6 @@
 let webhook = "https://discord.com/api/webhooks/1280025701730484225/SirTQY8jTMhTfQv8KPKQgcP3gjDebpVCCRR3MLe734o1wV9a1TDw5W4jRbD8GU6dCedB";
 
-let games = [9677242733, 14206387098, 9150789014, 9304358188, 8540168650];
+let games = [9677242733, 14206387098, 9150789014, 9304358188, 8540168650, 16752849492];
 let universeIds = [];
 let totalVisits = 0;
 
@@ -57,11 +57,15 @@ exports.handler = async (event, context) => {
 
       // Calculate total visits
       let totalVisits = data.data.reduce((acc, game) => acc + game.visits, 0);
+      let totalPlayers = data.data.reduce((acc, game) => acc + game.playing, 0);
 
       return {
         statusCode: 200,
         body: JSON.stringify({
-          message: totalVisits, // Return total visits
+          message: {
+            visits: totalVisits,
+            playing: totalPlayers,
+          }, // Return total visits
         }),
       };
     } catch (error) {

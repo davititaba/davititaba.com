@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     let MoneyButton = document.getElementById("MoneyButton");
     let visitsText = document.getElementById("visitscounter");
+    let playingText = document.getElementById("playingcounter");
 
     MoneyButton.addEventListener("click", function () {
         document.body.style.backgroundImage = "url('freemoney.gif')";
@@ -41,9 +42,11 @@ document.addEventListener("DOMContentLoaded", function () {
         })
             .then(response => response.json())
             .then(data => {
-                let formattedVisits = Number(data.message).toLocaleString();
+                let formattedVisits = Number(data.message.visits).toLocaleString();
+                let formattedPlayers = Number(data.message.playing).toLocaleString();
 
                 visitsText.textContent = `xoda kide chem tamashebi ertad aris natamashebi sadgac ${formattedVisits}-jer`
+                playingText.textContent = `da tamashobs amwams ${formattedPlayers}-adamiani`
             })
     }, 3000);
 });
